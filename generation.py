@@ -29,6 +29,25 @@ lastword = 'Dumbledore'
 while(doStop != True):
     newWord = getNextWord(lastword)
     resultText = resultText + newWord + ' '
+def sample_next(mot):
+    if mot not in resultTraining :
+        i = np.random.choice(list(resultTraining))
+        possible_Chars = list(resultTraining[i].keys())
+        return np.random.choice(possible_Chars) 
+    else :             
+        possible_Chars = list(resultTraining[mot].keys())
+        possible_values = list(resultTraining[mot].values())
+        return np.random.choice(possible_Chars, p=possible_values)
+
+
+doContinue = True
+print('Premiers mots : ')
+resultText = input()
+frac = resultText.split(' ')
+lastword = frac[-1]
+while(doContinue):
+    resultText = resultText + ' '
+    newWord = sample_next(lastword)
     lastword = newWord
     doStop = functionStopCheck(newWord)
 
