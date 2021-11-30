@@ -17,14 +17,15 @@ else:
 
 
 def getNextWord(mot):
+    mot = mot.lower()
     possible_Chars = list(resultTraining[mot].keys())
     possible_values = list(resultTraining[mot].values())
     return np.random.choice(possible_Chars, p=possible_values)
 
 
 doStop = False
-resultText = 'Hagrid '
-lastword = 'hagrid'
+resultText = 'Dumbledore '
+lastword = 'Dumbledore'
 while(doStop != True):
     newWord = getNextWord(lastword)
     resultText = resultText + newWord + ' '
