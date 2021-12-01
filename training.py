@@ -2,7 +2,7 @@ import json
 import os
 
 # Checks if the files exist
-isResultFileExists = os.path.isfile('./training-result.json')
+isResultFileExists = os.path.isfile('./training-result-freq.json')
 isTrainingFileExist = os.path.isfile('./training-data.txt')
 
 # Open training set or throw exception if it does not exist
@@ -18,10 +18,10 @@ else:
 
 # Open or create the training result file
 if(isResultFileExists):
-    with open('./training-result.json') as json_file:
-        resultTraining = json.load(json_file)
+    with open('./training-result-freq.json') as json_file:
+        resultTrainingFreq = json.load(json_file)
 else:
-    resultTraining = {}
+    resultTrainingFreq = {}
 
 listlenght = len(trainingData)
 
@@ -30,25 +30,29 @@ listlenght = len(trainingData)
 for i in range(0, listlenght):
     print((i+1), '/', listlenght)
     if(i != listlenght - 1):
-        isWordPresent = trainingData[i] in resultTraining
+        isWordPresent = trainingData[i] in resultTrainingFreq
         if(isWordPresent):
-            isSecondWordPresent = trainingData[i +1] in (resultTraining[trainingData[i]])
+            isSecondWordPresent = trainingData[i +1] in (resultTrainingFreq[trainingData[i]])
             if(isSecondWordPresent):
-                resultTraining[trainingData[i]][trainingData[i+1]] = resultTraining[trainingData[i]][trainingData[i+1]] + 1
-                resultTraining[trainingData[i]]['counter'] = resultTraining[trainingData[i]]['counter'] + 1
+                resultTrainingFreq[trainingData[i]][trainingData[i+1]] = resultTrainingFreq[trainingData[i]][trainingData[i+1]] + 1
+                resultTrainingFreq[trainingData[i]]['counter'] = resultTrainingFreq[trainingData[i]]['counter'] + 1
             else:
-                resultTraining[trainingData[i]][trainingData[i+1]] = 1
-                resultTraining[trainingData[i]]['counter'] = resultTraining[trainingData[i]]['counter'] + 1
+                resultTrainingFreq[trainingData[i]][trainingData[i+1]] = 1
+                resultTrainingFreq[trainingData[i]]['counter'] = resultTrainingFreq[trainingData[i]]['counter'] + 1
         else:
-            resultTraining[trainingData[i]] = {trainingData[i+1]: 1, 'counter': 1}
+            resultTrainingFreq[trainingData[i]] = {trainingData[i+1]: 1, 'counter': 1}
 
-# Transform the number in probabilities
-for word in resultTraining:
-    for subWord in resultTraining[word]:
+# Create a new json that store probabilities instead of frequencies
+resultTrainingProb = {}
+for word in resultTrainingFreq:
+    resultTrainingProb[word] = {}
+    for subWord in resultTrainingFreq[word]:
         if(subWord != 'counter'):
-            resultTraining[word][subWord] = resultTraining[word][subWord] / resultTraining[word]['counter']
-    (resultTraining[word]).pop('counter')
+            resultTrainingProb[word][subWord] = resultTrainingFreq[word][subWord] / resultTrainingFreq[word]['counter']
     
-# Save the changes
-with open('training-result.json', 'w') as outfile:
-    json.dump(resultTraining, outfile)
+# Save the changes for frequencies and create a new file for probabilites
+with open('training-result-freq.json', 'w') as outfile:
+    json.dump(resultTrainingFreq, outfile)
+    
+with open('training-result-prob.json', 'w') as outfile:
+    json.dump(resultTrainingProb, outfile)
