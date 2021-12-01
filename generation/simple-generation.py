@@ -1,9 +1,9 @@
 import sys
 sys.path.insert(1, './')
-from constants import *
-import numpy as np
-import os
 import json
+import os
+import numpy as np
+from constants import *
 
 
 # Get word following [mot].
@@ -21,9 +21,10 @@ def __getNextWord(mot, allWords, resultTraining):
 
 
 # Generate the phrase and print it.
-def generatePhrase():
+def generatePhrase(firstWords):
     # Checks if the files exist
-    isResultFileExists = os.path.isfile('./generated/simple-training-result-prob.json')
+    isResultFileExists = os.path.isfile(
+        './generated/simple-training-result-prob.json')
 
     # Open or create the training result file
     if(isResultFileExists):
@@ -35,16 +36,17 @@ def generatePhrase():
     allWords = list(resultTraining)
 
     # Get the first word from an user input
-    print('Premiers mots : ')
-    resultText = input()+' '
+    #! print('Premiers mots : ')
+    #! resultText = input()+' '
+    resultText = firstWords
     doStop = False
-    
+
     # Loop to create the phrase
     while(doStop != True):
         frac = resultText.split()
         fraclen = len(frac)
         lastword = frac[fraclen-1]
-        
+
         newWord = __getNextWord(lastword, allWords, resultTraining)
         resultText = resultText + newWord + ' '
         doStop = functionStopCheck(newWord)
@@ -53,4 +55,4 @@ def generatePhrase():
 
 
 # Test
-generatePhrase()
+generatePhrase('Dumbledore ')

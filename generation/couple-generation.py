@@ -1,9 +1,9 @@
+import sys
+sys.path.insert(1, './')
 from constants import *
 import numpy as np
 import os
 import json
-import sys
-sys.path.insert(1, './')
 
 # Get word following [mot].
 # Require a list [allWords] and a json [resultTraining]
@@ -24,7 +24,7 @@ def __getNextWord(mot, allWords, resultTraining):
 
 
 # Generate the phrase and print it.
-def generatePhraseWithCouple():
+def generatePhraseWithCouple(firstWords):
     # Checks if the files exist
     isResultFileExists = os.path.isfile(
         './generated/couple-training-result-prob.json')
@@ -39,8 +39,9 @@ def generatePhraseWithCouple():
     allWords = list(resultTraining)
 
     # Get the first word from an user input
-    print('Premiers mots : ')
-    resultText = input()+' '
+    #! print('Premiers mots : ')
+    #! resultText = input()+' '
+    resultText = firstWords
     doStop = False
     # Loop to create the phrase
     while(doStop != True):
@@ -56,4 +57,4 @@ def generatePhraseWithCouple():
 
 
 # Test
-generatePhraseWithCouple()
+generatePhraseWithCouple("Harry allait ")
