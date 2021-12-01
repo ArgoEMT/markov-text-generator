@@ -1,4 +1,4 @@
 
-.vscode/settings.json
+.vscode/*
 
 __pycache__/constants.cpython-39.pyc
