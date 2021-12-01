@@ -23,15 +23,15 @@ def __getNextWord(mot, allWords, resultTraining):
 # Generate the phrase and print it.
 def generatePhrase():
     # Checks if the files exist
-    isResultFileExists = os.path.isfile('./simple-training-result-prob.json')
+    isResultFileExists = os.path.isfile('./generated/simple-training-result-prob.json')
 
     # Open or create the training result file
     if(isResultFileExists):
-        with open('./simple-training-result-prob.json') as json_file:
+        with open('./generated/simple-training-result-prob.json') as json_file:
             resultTraining = json.load(json_file)
     else:
         raise ValueError(
-            'Training result file does not exist. This program cannot be launch.')
+            'Training result file does not exist. Make sure to run the training before trying to run this methode.')
     allWords = list(resultTraining)
 
     # Get the first word from an user input

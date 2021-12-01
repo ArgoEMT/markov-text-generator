@@ -1,9 +1,9 @@
+from constants import *
+import numpy as np
+import os
+import json
 import sys
 sys.path.insert(1, './')
-import json
-import os
-import numpy as np
-from constants import *
 
 # Get word following [mot].
 # Require a list [allWords] and a json [resultTraining]
@@ -26,15 +26,16 @@ def __getNextWord(mot, allWords, resultTraining):
 # Generate the phrase and print it.
 def generatePhraseWithCouple():
     # Checks if the files exist
-    isResultFileExists = os.path.isfile('./couple-training-result-prob.json')
+    isResultFileExists = os.path.isfile(
+        './generated/couple-training-result-prob.json')
 
     # Open or create the training result file
     if(isResultFileExists):
-        with open('./couple-training-result-prob.json') as json_file:
+        with open('./generated/couple-training-result-prob.json') as json_file:
             resultTraining = json.load(json_file)
     else:
         raise ValueError(
-            'Training result file does not exist. This program cannot be launch.')
+            'Training result file does not exist. Make sure to run the training before trying to run this methode.')
     allWords = list(resultTraining)
 
     # Get the first word from an user input
